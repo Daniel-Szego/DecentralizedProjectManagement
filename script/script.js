@@ -141,6 +141,48 @@ async function CreateProjectTransaction(param) {
  * @transaction
  */
 async function AddStepToProjectTransaction(param) {  
+  
+  const factory = getFactory(); 
+
+  const project = param.project;
+  const stepName = param.stepName;
+  const startDateString = param.startDateString;
+  const dueDateString = param.dueDateString;
+
+  const stepReg = await getAssetRegistry(namespace + '.Step');   
+
+  // getting next id
+  let existingSteps = await stepReg.getAll();
+  let numberOfSteps = 0;
+  
+  await existingSteps.forEach(function (step) {
+    numberOfSteps ++;
+  });
+  numberOfSteps ++; 	  
+  
+  const step = await factory.newResource(namespace, 'Step', numberOfSteps.toString());
+  step.stepName = stepName;
+  step.startDate = new Date(startDateString);
+  step.dueDate = new Date(dueDateString);
+  step.status = "NOTSTARTED";
+  step.readyness = 0;
+  step.workers = new Array();
+  step.auditors = new Array();
+    
+  await stepReg.add(step);      
+
+  const projReg = await getAssetRegistry(namespace + '.Project');   
+  project.steps.push(step);
+  
+  projReg.update(project);
+  
+  // emitting ProjectCreated event
+  
+  let stepCreatedEvent = factory.newEvent(namespace, 'StepCreated');
+  stepCreatedEvent.project = project;
+  stepCreatedEvent.step = step;
+  await emit(stepCreatedEvent);  	  
+  
 }
 
 /**
@@ -158,4 +200,5 @@ async function AddWorkerToStepTransaction(param) {
  */
 async function AddAuditorToStepTransaction(param) { 
 }
+
 

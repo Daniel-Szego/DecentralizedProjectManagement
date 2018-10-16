@@ -43,7 +43,9 @@ asset Step identified by stepId {
   o DateTime dueDate
   o Status status
   o Integer readyness
-  -->Step previousStep
+  -->Step previousStep optional
+  -->Worker[] workers
+  -->Auditor[] auditors
 }
 
 /**

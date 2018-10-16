@@ -13,110 +13,109 @@
  */
 
 /**
- * Sample business network definition for the booking domain.
+ * Sample business network definition for decentralized project management.
  */
-
-namespace org.booking.model
+namespace org.project.basic
 
 /**
  * ASSETS
  */
 
-abstract asset BookableObject identified by bookableId {
-  o String bookableId
-  o DateTime date
+enum Status {
+  	o NOTSTARTED
+	o STARTED
+    o FINISHED
 }
 
-enum RoomType {
-  o SIMPLE
-  o DELUXE
-  o KING
+asset Project identified by projectId {
+  o String projectId
+  o String projectName
+  o DateTime startDate
+  o DateTime dueDate
+  o Status status
+  -->Step[] steps
 }
 
-enum RoomStatus {
-  o FREE
-  o RESEREVED
-}
-
-asset Room extends BookableObject {
-  o Integer numberOfPeople
-  o Integer numberOfBeds
-  o RoomType roomType
-  o RoomStatus roomStatus
-  --> Hotel hotel
-  --> EndUser endUser optional
+asset Step identified by stepId {
+  o String stepId
+  o String stepName
+  o DateTime startDate
+  o DateTime dueDate
+  o Status status
+  o Integer readyness
+  -->Step previousStep
 }
 
 /**
  * PARTICIPANTS
  */
 
-concept Address {
-  o String country
-  o String city optional
-  o String street optional
-  o Integer hauseNr optional
+abstract participant ProjectPartcipants identified by participantId {
+  o String participantId
+  o String firstName
+  o String lastName
 }
 
-abstract participant BookableObjectHolder identified by holderId {
-  o String holderId
+participant Worker extends ProjectPartcipants {
 }
 
-participant Hotel extends BookableObjectHolder {
-  o String hotelName
-  o Address address
-}
-
-participant EndUser identified by userId {
-  o String userId
-  o String UserName
+participant Auditor extends ProjectPartcipants {
 }
 
 /**
  * TRANSACTIONS
  */
 
-transaction InitTestData {
+transaction CreateTestData {
 }
 
-transaction ClearData {
+transaction ClearTestData {
 }
 
-
-transaction IssueHotelRoom {
-  --> Hotel hotel
-  o Integer numberOfPeople
-  o Integer numberOfBeds
-  o RoomType roomType
-  o RoomStatus roomStatus
-  o String dateString
+transaction CreateProject {
+  o String projectName
+  o DateTime startDate
+  o DateTime dueDate
 }
 
-transaction ReserveRoom {
-  --> Room room
-  --> EndUser me
+transaction AddStepToProject {
+  --> Project project
+  o String stepName
+  o DateTime startDate
+  o DateTime dueDate
 }
 
-transaction TransferRoom {
-  --> Room room
-  --> EndUser to 
+transaction AddWorkerToStep {
+  --> Worker worker
+  --> Step step
 }
+
+transaction AddAuditorToStep {
+  --> Auditor auditor
+  --> Step step
+}
+
 
 /**
  * EVENTS
  */
 
-event ObjectIssued {
-  --> BookableObject object
-  --> BookableObjectHolder objectHolder
+
+event ProjectCreated {
+  --> Project project
 }
 
-event ObjectReservered {
-  --> BookableObject object
+event StepCreated {
+  --> Project project
+  --> Step step
 }
 
-event ObjectTransferred {
-  --> BookableObject object
-  --> EndUser to 
+event WorkerAdded {
+  --> Worker worker
+  --> Step step
 }
 
+event AuditorAdded {
+  --> Auditor auditor
+  --> Step step
+}

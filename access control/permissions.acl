@@ -13,14 +13,12 @@
  */
 
 /**
- * Sample access control list.
+ * Sample access control list for decentralized project management.
  */
 rule EverybodyCanDoEverything {
-    description: "Default test rule everybody can do anything"
+    description: "Allow all participants read access to all resources"
     participant: "**"
     operation: ALL
     resource: "**"
     action: ALLOW
 }
-
-

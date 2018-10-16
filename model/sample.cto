@@ -54,6 +54,7 @@ abstract participant ProjectPartcipants identified by participantId {
   o String participantId
   o String firstName
   o String lastName
+  o String organisationName
 }
 
 participant Worker extends ProjectPartcipants {

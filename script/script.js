@@ -100,6 +100,39 @@ async function ClearTestDataTransaction(param) {
  * @transaction
  */
 async function CreateProjectTransaction(param) {  
+  
+  const factory = getFactory(); 
+
+  const projectName = param.projectName;
+  const startDateString = param.startDateString;
+  const dueDateString = param.dueDateString;
+
+  const projectReg = await getAssetRegistry(namespace + '.Project');   
+
+  // getting next id
+  let existingProjects = await projectReg.getAll();
+  let numberOfProjects = 0;
+  
+  await existingProjects.forEach(function (room) {
+    numberOfProjects ++;
+  });
+  numberOfProjects ++; 	
+  
+  const project = await factory.newResource(namespace, 'Project', numberOfProjects.toString());
+  project.projectName = projectName;
+  project.startDate = new Date(startDateString);
+  project.dueDate = new Date(dueDateString);
+  project.steps = new Array();
+  project.status = "NOTSTARTED";
+  
+  await projectReg.add(project);      
+  
+  // emitting ProjectCreated event
+
+  let projectCreatedEvent = factory.newEvent(namespace, 'ProjectCreated');
+  projectCreatedEvent.project = project;
+  await emit(projectCreatedEvent);  	  
+  
 }
 
 /**

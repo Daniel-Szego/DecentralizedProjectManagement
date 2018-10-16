@@ -75,15 +75,15 @@ transaction ClearTestData {
 
 transaction CreateProject {
   o String projectName
-  o DateTime startDate
-  o DateTime dueDate
+  o String startDateString
+  o String dueDateString
 }
 
 transaction AddStepToProject {
   --> Project project
   o String stepName
-  o DateTime startDate
-  o DateTime dueDate
+  o String startDateString
+  o String dueDateString
 }
 
 transaction AddWorkerToStep {

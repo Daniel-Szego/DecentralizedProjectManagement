@@ -176,8 +176,7 @@ async function AddStepToProjectTransaction(param) {
   
   projReg.update(project);
   
-  // emitting ProjectCreated event
-  
+  // emitting ProjectCreated event 
   let stepCreatedEvent = factory.newEvent(namespace, 'StepCreated');
   stepCreatedEvent.project = project;
   stepCreatedEvent.step = step;
@@ -191,6 +190,20 @@ async function AddStepToProjectTransaction(param) {
  * @transaction
  */
 async function AddWorkerToStepTransaction(param) {  
+   let worker = param.worker;
+   let step =  param.step;
+  
+   const factory = getFactory(); 
+   
+   const stepReg = await getAssetRegistry(namespace + '.Step');   
+   step.workers.push(worker);
+   stepReg.update(step);
+
+   // emitting WorkerAdded event 
+   let workerAddedEvent = factory.newEvent(namespace, 'WorkerAdded');
+   workerAddedEvent.worker = worker;
+   workerAddedEvent.step = step;
+   await emit(workerAddedEvent);  	    
 }
 
 /**
@@ -199,6 +212,20 @@ async function AddWorkerToStepTransaction(param) {
  * @transaction
  */
 async function AddAuditorToStepTransaction(param) { 
+   let auditor = param.auditor;
+   let step =  param.step;
+      
+   const factory = getFactory(); 
+  
+   const stepReg = await getAssetRegistry(namespace + '.Step');   
+   step.auditors.push(auditor);
+   stepReg.update(step);
+
+   // emitting WorkerAdded event 
+   let auditorAddedEvent = factory.newEvent(namespace, 'AuditorAdded');
+   auditorAddedEvent.auditor = auditor;
+   auditorAddedEvent.step = step;
+   await emit(auditorAddedEvent);  	 
 }
 
 

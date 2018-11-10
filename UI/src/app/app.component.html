@@ -1,0 +1,63 @@
+<!--
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <p class="network-name">projectmanagement@0.2.6-deploy.16.bna</p>
+        <p class="navbar-brand">projectmanagement</p>
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="dropdown active">
+            <a class="dropdown-toggle" data-toggle="dropdown">Assets</a>
+            <ul class="dropdown-menu scrollable-menu">
+              
+              <li><a [routerLink]="['/Project']">Project</a></li>
+              
+              <li><a [routerLink]="['/Step']">Step</a></li>
+              
+            </ul>
+        </li>
+        <li class="dropdown active">
+          <a class="dropdown-toggle" data-toggle="dropdown">Participants</a>
+          <ul class="dropdown-menu scrollable-menu">
+            
+            <li><a [routerLink]="['/Worker']">Worker</a></li>
+            
+            <li><a [routerLink]="['/Auditor']">Auditor</a></li>
+            
+          </ul>
+      </li>
+      <li class="dropdown active">
+        <a class="dropdown-toggle" data-toggle="dropdown">Transactions</a>
+        <ul class="dropdown-menu scrollable-menu">
+          
+          <li><a [routerLink]="['/CreateTestData']">CreateTestData</a></li>
+          
+          <li><a [routerLink]="['/ClearTestData']">ClearTestData</a></li>
+          
+          <li><a [routerLink]="['/CreateProject']">CreateProject</a></li>
+          
+          <li><a [routerLink]="['/AddStepToProject']">AddStepToProject</a></li>
+          
+          <li><a [routerLink]="['/AddWorkerToStep']">AddWorkerToStep</a></li>
+          
+          <li><a [routerLink]="['/AddAuditorToStep']">AddAuditorToStep</a></li>
+          
+        </ul>
+    </li>
+      </ul>
+    </div>
+  </nav>
+  
+  <router-outlet></router-outlet>
